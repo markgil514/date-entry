@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Приглашение на свидание ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 50%, #ffe5ec 100%);
+      padding: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 40px rgba(255, 77, 109, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Индикатор шагов */
+    .steps-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffd1dc;
+      transition: all 0.3s ease;
+    }
+
+    .step-dot.active {
+      background: #ff4d6d;
+      width: 24px;
+      border-radius: 12px;
+    }
+
+    /* Экраны (Шаги) */
+    .step-page {
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .step-page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      font-size: 22px;
+      color: #2b2b2b;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* Красивые анимированные иллюстрации без внешних ссылок */
+    .illustration-box {
+      width: 100%;
+      height: 200px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .heart-anim {
+      width: 90px;
+      height: 90px;
+      fill: #ff4d6d;
+      animation: pulse 1.2s infinite alternate ease-in-out;
+      filter: drop-shadow(0 6px 15px rgba(255, 77, 109, 0.4));
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); }
+      100% { transform: scale(1.15); }
+    }
+
+    .celebrate-anim {
+      width: 100px;
+      height: 100px;
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.08); }
+    }
+
+    .btn-wrapper {
+      position: relative;
+      width: 100%;
+      height: 120px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-yes {
+      background-color: #ff4d6d;
+      color: white;
+      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.35);
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .btn-yes:hover {
+      background-color: #e63956;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .btn-no {
+      background-color: #f1f3f5;
+      color: #495057;
+      position: absolute;
+      left: 50%;
+      top: 65px;
+      transform: translateX(-50%);
+      z-index: 10;
+      transition: top 0.15s ease, left 0.15s ease;
+    }
+
+    /* ШАГ 2: Выбор меню */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .menu-card {
+      border: 2px solid #f0f0f0;
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #fafafa;
+      user-select: none;
+    }
+
+    .menu-card:hover {
+      border-color: #ff8fa3;
+    }
+
+    .menu-card.selected {
+      border-color: #ff4d6d;
+      background: #fff0f3;
+      box-shadow: 0 4px 12px rgba(255, 77, 109, 0.15);
+    }
+
+    .menu-card .icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+
+    .menu-card .name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* ШАГ 3: Выбор времени и даты */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #eee;
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #fafafa;
+    }
+
+    .form-control:focus {
+      border-color: #ff4d6d;
+      background: #fff;
+    }
+
+    .btn-next {
+      width: 100%;
+      background: #ff4d6d;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-next:hover {
+      background: #e63956;
+    }
+
+    .btn-next:disabled {
+      background: #cccccc;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    /* ШАГ 4: Финальный итог */
+    .summary-card {
+      background: #fff0f3;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 24px;
+      border: 1px solid #ffccd5;
+    }
+
+    .summary-item {
+      margin-bottom: 14px;
+    }
+
+    .summary-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #ff4d6d;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .summary-value {
+      font-size: 16px;
+      color: #2b2b2b;
+      font-weight: 600;
+    }
+
+    .final-badge {
+      text-align: center;
+      background: #ff4d6d;
+      color: white;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Индикаторы шагов -->
+    <div class="steps-indicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+      <div class="step-dot" id="dot4"></div>
+    </div>
+
+    <!-- ШАГ 1: Вопрос -->
+    <div class="step-page active" id="step1">
+      <div class="illustration-box">
+        <svg class="heart-anim" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+      <h1 class="title">Пойдёшь со мной на свидание? 🌹</h1>
+      <p class="subtitle">У меня для тебя кое-что особенное...</p>
+      
+      <div class="btn-wrapper" id="btnWrapper">
+        <button class="btn btn-yes" id="btnYes">Пойду! ❤️</button>
+        <button class="btn btn-no" id="btnNo">Не пойду</button>
+      </div>
+    </div>
+
+    <!-- ШАГ 2: Выбор меню -->
+    <div class="step-page" id="step2">
+      <h1 class="title">Что будем кушать? 🍕✨</h1>
+      <p class="subtitle">Выбери всё, что тебе хочется (можно несколько):</p>
+
+      <div class="menu-grid">
+        <div class="menu-card" data-food="Пицца 🍕">
+          <div class="icon">🍕</div>
+          <div class="name">Пицца</div>
+        </div>
+        <div class="menu-card" data-food="Суши / Роллы 🍣">
+          <div class="icon">🍣</div>
+          <div class="name">Суши / Роллы</div>
+        </div>
+        <div class="menu-card" data-food="Бургеры 🍔">
+          <div class="icon">🍔</div>
+          <div class="name">Бургеры</div>
+        </div>
+        <div class="menu-card" data-food="Паста 🍝">
+          <div class="icon">🍝</div>
+          <div class="name">Паста</div>
+        </div>
+        <div class="menu-card" data-food="Десерты 🍰">
+          <div class="icon">🍰</div>
+          <div class="name">Десерты</div>
+        </div>
+        <div class="menu-card" data-food="Кофе / Коктейли ☕">
+          <div class="icon">☕</div>
+          <div class="name">Напитки</div>
+        </div>
+      </div>
+
+      <button class="btn-next" id="toStep3" disabled>Продолжить →</button>
+    </div>
+
+    <!-- ШАГ 3: Выбор времени и даты -->
+    <div class="step-page" id="step3">
+      <h1 class="title">Когда тебе удобно? 📅</h1>
+      <p class="subtitle">Выбери подходящую дату и время:</p>
+
+      <div class="form-group">
+        <label for="dateInput">Выбери дату:</label>
+        <input type="date" id="dateInput" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="timeInput">Выбери время:</label>
+        <input type="time" id="timeInput" class="form-control">
+      </div>
+
+      <button class="btn-next" id="toStep4" disabled>Подтвердить →</button>
+    </div>
+
+    <!-- ШАГ 4: Финальный итог -->
+    <div class="step-page" id="step4">
+      <div class="illustration-box">
+        <!-- Анимированное алое сердце со звёздочками (гарантированно работает без внешних сервисов) -->
+        <svg class="celebrate-anim" viewBox="0 0 100 100" fill="none">
+          <path d="M50 82L42.8 75.4C17.2 52.2 0 36.6 0 17.2C0 1.6 12.2 -10.6 27.6 -10.6 36.3 -10.6 44.6 -6.5 50 0C55.4 -6.5 63.7 -10.6 72.4 -10.6 87.8 -10.6 100 1.6 100 17.2C100 36.6 82.8 52.2 57.2 75.4L50 82Z" transform="translate(0, 10) scale(0.7)" fill="#FF4D6D"/>
+          <path d="M20 20L23 13L30 10L23 7L20 0L17 7L10 10L17 13L20 20Z" fill="#FFB703"/>
+          <path d="M80 25L82 19L88 17L82 15L80 9L78 15L72 17L78 19L80 25Z" fill="#FFB703"/>
+        </svg>
+      </div>
+      <h1 class="title">Ура! Всё решено! 🥰✨</h1>
+      <p class="subtitle">Запомни детали нашего свидания:</p>
+
+      <div class="summary-card">
+        <div class="summary-item">
+          <div class="summary-label">Дата и время</div>
+          <div class="summary-value" id="summaryDateTime">-</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Выбранное меню</div>
+          <div class="summary-value" id="summaryMenu">-</div>
+        </div>
+      </div>
+
+      <div class="final-badge" id="finalMessage">
+        Будь готова к указанному времени! 🌹
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // =========================================================
+      // НАСТРОЙКИ TELEGRAM (ВСТАВЬ СВОИ ДАННЫЕ СЮДА)
+      // =========================================================
+      const BOT_TOKEN = '8948926730:AAEo9YS0wxRo-yYYnLogK9ILzY0WGJQglfQ';
+      const CHAT_ID = '1945799567';
+
+      // Состояние выбранных данных
+      const selectedData = {
+        menu: [],
+        date: '',
+        time: ''
+      };
+
+      // Элементы
+      const btnYes = document.getElementById('btnYes');
+      const btnNo = document.getElementById('btnNo');
+      const btnWrapper = document.getElementById('btnWrapper');
+      
+      const menuCards = document.querySelectorAll('.menu-card');
+      const toStep3Btn = document.getElementById('toStep3');
+
+      const dateInput = document.getElementById('dateInput');
+      const timeInput = document.getElementById('timeInput');
+      const toStep4Btn = document.getElementById('toStep4');
+
+      const summaryDateTime = document.getElementById('summaryDateTime');
+      const summaryMenu = document.getElementById('summaryMenu');
+      const finalMessage = document.getElementById('finalMessage');
+
+      // Минимальная дата в календаре — сегодня
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.setAttribute('min', today);
+
+      // Переключение шагов
+      function goToStep(stepNumber) {
+        document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
+        document.querySelectorAll('.step-dot').forEach(dot => dot.classList.remove('active'));
+
+        document.getElementById(`step${stepNumber}`).classList.add('active');
+        document.getElementById(`dot${stepNumber}`).classList.add('active');
+      }
+
+      // 1. ЛОГИКА ШАГА 1 (Убегающая кнопка)
+      function moveNoButton() {
+        const wrapperRect = btnWrapper.getBoundingClientRect();
+        const btnRect = btnNo.getBoundingClientRect();
+
+        const maxX = wrapperRect.width - btnRect.width;
+        const maxY = wrapperRect.height - btnRect.height;
+
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        btnNo.style.left = randomX + 'px';
+        btnNo.style.top = randomY + 'px';
+        btnNo.style.transform = 'none';
+      }
+
+      btnNo.addEventListener('mouseenter', moveNoButton);
+      btnNo.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        moveNoButton();
+      });
+
+      btnYes.addEventListener('click', function() {
+        goToStep(2);
+      });
+
+      // 2. ЛОГИКА ШАГА 2 (Выбор меню)
+      menuCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const food = this.getAttribute('data-food');
+          this.classList.toggle('selected');
+
+          if (this.classList.contains('selected')) {
+            selectedData.menu.push(food);
+          } else {
+            selectedData.menu = selectedData.menu.filter(item => item !== food);
+          }
+
+          // Активируем кнопку только если выбрано хотя бы одно блюдо
+          toStep3Btn.disabled = selectedData.menu.length === 0;
+        });
+      });
+
+      toStep3Btn.addEventListener('click', function() {
+        goToStep(3);
+      });
+
+      // 3. ЛОГИКА ШАГА 3 (Дата и Время)
+      function checkStep3Valid() {
+        if (dateInput.value && timeInput.value) {
+          toStep4Btn.disabled = false;
+        } else {
+          toStep4Btn.disabled = true;
+        }
+      }
+
+      dateInput.addEventListener('change', checkStep3Valid);
+      timeInput.addEventListener('change', checkStep3Valid);
+
+      // Функция отправки ответа боту
+      async function sendToTelegram(date, time, menu) {
+        const message = `
+🎟️ <b>ОТВЕТ НА ПРИГЛАШЕНИЕ!</b>
+
+📅 <b>Дата:</b> ${date}
+⏰ <b>Время:</b> ${time}
+🍕 <b>Выбранное меню:</b> ${menu}
+
+💖 <i>Сообщение прилетело с твоего сайта!</i>
+        `.trim();
+
+        try {
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: message,
+              parse_mode: 'HTML'
+            })
+          });
+        } catch (error) {
+          console.error('Ошибка отправки в Telegram:', error);
+        }
+      }
+
+      toStep4Btn.addEventListener('click', function() {
+        selectedData.date = dateInput.value;
+        selectedData.time = timeInput.value;
+
+        // Форматируем дату красиво
+        const dateParts = selectedData.date.split('-');
+        const formattedDate = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`;
+        const menuString = selectedData.menu.join(', ');
+
+        // Заполняем итоговые поля
+        summaryDateTime.textContent = `${formattedDate} в ${selectedData.time}`;
+        summaryMenu.textContent = menuString;
+        finalMessage.textContent = `Будь готова к ${selectedData.time} (${formattedDate})! 🌹`;
+
+        // Отправляем уведомление тебе в Telegram
+        sendToTelegram(formattedDate, selectedData.time, menuString);
+
+        goToStep(4);
+      });
+    });
+  </script>
+</body>
+</html>
