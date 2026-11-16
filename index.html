@@ -1,572 +1,337 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Приглашение на свидание ✨</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 50%, #ffe5ec 100%);
-      padding: 20px;
-    }
-
-    .container {
-      background: #ffffff;
-      width: 100%;
-      max-width: 480px;
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow: 0 12px 40px rgba(255, 77, 109, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Индикатор шагов */
-    .steps-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-
-    .step-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ffd1dc;
-      transition: all 0.3s ease;
-    }
-
-    .step-dot.active {
-      background: #ff4d6d;
-      width: 24px;
-      border-radius: 12px;
-    }
-
-    /* Экраны (Шаги) */
-    .step-page {
-      display: none;
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    .step-page.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .title {
-      font-size: 22px;
-      color: #2b2b2b;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 12px;
-      line-height: 1.3;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #666;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    /* Красивые анимированные иллюстрации без внешних ссылок */
-    .illustration-box {
-      width: 100%;
-      height: 200px;
-      border-radius: 16px;
-      margin-bottom: 24px;
-      background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .heart-anim {
-      width: 90px;
-      height: 90px;
-      fill: #ff4d6d;
-      animation: pulse 1.2s infinite alternate ease-in-out;
-      filter: drop-shadow(0 6px 15px rgba(255, 77, 109, 0.4));
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(0.9); }
-      100% { transform: scale(1.15); }
-    }
-
-    .celebrate-anim {
-      width: 100px;
-      height: 100px;
-      animation: bounce 1.5s infinite ease-in-out;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-10px) scale(1.08); }
-    }
-
-    .btn-wrapper {
-      position: relative;
-      width: 100%;
-      height: 120px;
-    }
-
-    .btn {
-      padding: 14px 28px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .btn-yes {
-      background-color: #ff4d6d;
-      color: white;
-      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.35);
-      position: absolute;
-      left: 50%;
-      top: 10px;
-      transform: translateX(-50%);
-      z-index: 2;
-    }
-
-    .btn-yes:hover {
-      background-color: #e63956;
-      transform: translateX(-50%) scale(1.05);
-    }
-
-    .btn-no {
-      background-color: #f1f3f5;
-      color: #495057;
-      position: absolute;
-      left: 50%;
-      top: 65px;
-      transform: translateX(-50%);
-      z-index: 10;
-      transition: top 0.15s ease, left 0.15s ease;
-    }
-
-    /* ШАГ 2: Выбор меню */
-    .menu-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .menu-card {
-      border: 2px solid #f0f0f0;
-      border-radius: 16px;
-      padding: 14px 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background: #fafafa;
-      user-select: none;
-    }
-
-    .menu-card:hover {
-      border-color: #ff8fa3;
-    }
-
-    .menu-card.selected {
-      border-color: #ff4d6d;
-      background: #fff0f3;
-      box-shadow: 0 4px 12px rgba(255, 77, 109, 0.15);
-    }
-
-    .menu-card .icon {
-      font-size: 32px;
-      margin-bottom: 6px;
-    }
-
-    .menu-card .name {
-      font-size: 14px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    /* ШАГ 3: Выбор времени и даты */
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #444;
-      margin-bottom: 8px;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #eee;
-      border-radius: 14px;
-      font-size: 15px;
-      outline: none;
-      transition: border-color 0.2s;
-      background: #fafafa;
-    }
-
-    .form-control:focus {
-      border-color: #ff4d6d;
-      background: #fff;
-    }
-
-    .btn-next {
-      width: 100%;
-      background: #ff4d6d;
-      color: white;
-      padding: 14px;
-      border: none;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
-      transition: all 0.2s;
-    }
-
-    .btn-next:hover {
-      background: #e63956;
-    }
-
-    .btn-next:disabled {
-      background: #cccccc;
-      box-shadow: none;
-      cursor: not-allowed;
-    }
-
-    /* ШАГ 4: Финальный итог */
-    .summary-card {
-      background: #fff0f3;
-      border-radius: 18px;
-      padding: 20px;
-      text-align: left;
-      margin-bottom: 24px;
-      border: 1px solid #ffccd5;
-    }
-
-    .summary-item {
-      margin-bottom: 14px;
-    }
-
-    .summary-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .summary-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #ff4d6d;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .summary-value {
-      font-size: 16px;
-      color: #2b2b2b;
-      font-weight: 600;
-    }
-
-    .final-badge {
-      text-align: center;
-      background: #ff4d6d;
-      color: white;
-      padding: 14px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Приглашение на свидание ✨</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 50%, #ffe5ec 100%); background-size: 200% 200%; animation: bgShift 14s ease-in-out infinite alternate; padding: 20px; overflow-x: hidden; }
+@keyframes bgShift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+#petals { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.container { position: relative; z-index: 1; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); width: 100%; max-width: 480px; border-radius: 28px; padding: 32px 24px; box-shadow: 0 16px 50px rgba(255,77,109,.2); animation: cardIn .8s cubic-bezier(.2,.9,.3,1.2) both; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(30px) scale(.96); } to { opacity: 1; transform: none; } }
+.steps-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+.step-dot { width: 10px; height: 10px; border-radius: 50%; background: #ffd1dc; transition: all .4s ease; }
+.step-dot.active { background: #ff4d6d; width: 26px; border-radius: 12px; }
+.step-page { display: none; }
+.step-page.active { display: block; animation: pageIn .6s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+.title { font-size: 23px; color: #2b2b2b; font-weight: 700; text-align: center; margin-bottom: 12px; line-height: 1.3; }
+.subtitle { font-size: 14px; color: #666; text-align: center; margin-bottom: 24px; }
+.illustration-box { width: 100%; height: 170px; border-radius: 18px; margin-bottom: 24px; background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%); display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+.heart-anim { width: 90px; height: 90px; fill: #ff4d6d; animation: beat 1.4s infinite ease-in-out; filter: drop-shadow(0 6px 15px rgba(255,77,109,.4)); }
+.heart-anim.sad { fill: #adb5bd; filter: none; animation: sway 3s infinite ease-in-out; }
+@keyframes beat { 0%,100% { transform: scale(.92); } 15% { transform: scale(1.14); } 30% { transform: scale(.98); } 45% { transform: scale(1.1); } 60% { transform: scale(.92); } }
+@keyframes sway { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+.sparkle { position: absolute; font-size: 18px; animation: twinkle 2.4s infinite ease-in-out; opacity: 0; }
+@keyframes twinkle { 0%,100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(25deg); } }
+.btn { position: relative; overflow: hidden; display: block; width: 100%; padding: 15px 28px; font-size: 16px; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; user-select: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; -webkit-tap-highlight-color: transparent; }
+.btn + .btn { margin-top: 12px; }
+.btn:hover:not(:disabled) { transform: translateY(-2px); }
+.btn:active:not(:disabled) { transform: scale(.97); }
+.btn-yes, .btn-next { background: linear-gradient(135deg, #ff6b88, #ff4d6d); color: #fff; box-shadow: 0 8px 22px rgba(255,77,109,.38); }
+.btn-yes:hover, .btn-next:hover:not(:disabled) { box-shadow: 0 12px 28px rgba(255,77,109,.5); }
+.btn-no { background: #f1f3f5; color: #495057; }
+.btn-next:disabled { background: #ddd; box-shadow: none; cursor: not-allowed; opacity: .8; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.55); transform: scale(0); animation: rip .6s ease-out forwards; pointer-events: none; }
+@keyframes rip { to { transform: scale(4); opacity: 0; } }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.menu-card { border: 2px solid #f3e6e9; border-radius: 18px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all .25s ease; background: #fff; user-select: none; opacity: 0; animation: cardPop .5s cubic-bezier(.2,.9,.3,1.3) forwards; position: relative; }
+.menu-card:nth-child(1) { animation-delay: .05s; } .menu-card:nth-child(2) { animation-delay: .12s; } .menu-card:nth-child(3) { animation-delay: .19s; }
+.menu-card:nth-child(4) { animation-delay: .26s; } .menu-card:nth-child(5) { animation-delay: .33s; } .menu-card:nth-child(6) { animation-delay: .4s; }
+@keyframes cardPop { from { opacity: 0; transform: translateY(14px) scale(.9); } to { opacity: 1; transform: none; } }
+.menu-card:hover { border-color: #ff8fa3; transform: translateY(-3px); }
+.menu-card.selected { border-color: #ff4d6d; background: #fff0f3; box-shadow: 0 6px 16px rgba(255,77,109,.2); animation: none; opacity: 1; transform: scale(1.03); }
+.menu-card.selected::after { content: '❤'; position: absolute; top: 6px; right: 10px; color: #ff4d6d; font-size: 13px; animation: cardPop .35s ease both; }
+.menu-card .icon { font-size: 34px; margin-bottom: 6px; transition: transform .3s ease; }
+.menu-card.selected .icon { transform: scale(1.18) rotate(-6deg); }
+.menu-card .name { font-size: 14px; font-weight: 600; color: #333; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; color: #444; margin-bottom: 8px; }
+.form-control { width: 100%; padding: 14px 16px; border: 2px solid #f3e6e9; border-radius: 16px; font-size: 16px; outline: none; transition: all .25s; background: #fff; }
+.form-control:focus { border-color: #ff4d6d; box-shadow: 0 0 0 4px rgba(255,77,109,.12); }
+.summary-card { background: #fff0f3; border-radius: 18px; padding: 20px; margin-bottom: 20px; border: 1px solid #ffccd5; }
+.summary-item { margin-bottom: 14px; }
+.summary-item:last-child { margin-bottom: 0; }
+.summary-label { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: #ff4d6d; font-weight: 700; margin-bottom: 4px; }
+.summary-value { font-size: 16px; color: #2b2b2b; font-weight: 600; }
+.final-badge { text-align: center; background: linear-gradient(135deg, #ff6b88, #ff4d6d); color: #fff; padding: 14px; border-radius: 16px; font-size: 16px; font-weight: 700; }
+.burst { position: fixed; z-index: 5; pointer-events: none; font-size: 22px; animation: burstUp 1.6s ease-out forwards; }
+@keyframes burstUp { from { opacity: 1; transform: translate(0,0) scale(.5); } to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--rot)); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Индикаторы шагов -->
-    <div class="steps-indicator">
-      <div class="step-dot active" id="dot1"></div>
-      <div class="step-dot" id="dot2"></div>
-      <div class="step-dot" id="dot3"></div>
-      <div class="step-dot" id="dot4"></div>
-    </div>
+<canvas id="petals"></canvas>
 
-    <!-- ШАГ 1: Вопрос -->
-    <div class="step-page active" id="step1">
-      <div class="illustration-box">
-        <svg class="heart-anim" viewBox="0 0 24 24">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-      </div>
-      <h1 class="title">Пойдёшь со мной на свидание? 🌹</h1>
-      <p class="subtitle">У меня для тебя кое-что особенное...</p>
-      
-      <div class="btn-wrapper" id="btnWrapper">
-        <button class="btn btn-yes" id="btnYes">Пойду! ❤️</button>
-        <button class="btn btn-no" id="btnNo">Не пойду</button>
-      </div>
-    </div>
-
-    <!-- ШАГ 2: Выбор меню -->
-    <div class="step-page" id="step2">
-      <h1 class="title">Что будем кушать? 🍕✨</h1>
-      <p class="subtitle">Выбери всё, что тебе хочется (можно несколько):</p>
-
-      <div class="menu-grid">
-        <div class="menu-card" data-food="Пицца 🍕">
-          <div class="icon">🍕</div>
-          <div class="name">Пицца</div>
-        </div>
-        <div class="menu-card" data-food="Суши / Роллы 🍣">
-          <div class="icon">🍣</div>
-          <div class="name">Суши / Роллы</div>
-        </div>
-        <div class="menu-card" data-food="Бургеры 🍔">
-          <div class="icon">🍔</div>
-          <div class="name">Бургеры</div>
-        </div>
-        <div class="menu-card" data-food="Паста 🍝">
-          <div class="icon">🍝</div>
-          <div class="name">Паста</div>
-        </div>
-        <div class="menu-card" data-food="Десерты 🍰">
-          <div class="icon">🍰</div>
-          <div class="name">Десерты</div>
-        </div>
-        <div class="menu-card" data-food="Кофе / Коктейли ☕">
-          <div class="icon">☕</div>
-          <div class="name">Напитки</div>
-        </div>
-      </div>
-
-      <button class="btn-next" id="toStep3" disabled>Продолжить →</button>
-    </div>
-
-    <!-- ШАГ 3: Выбор времени и даты -->
-    <div class="step-page" id="step3">
-      <h1 class="title">Когда тебе удобно? 📅</h1>
-      <p class="subtitle">Выбери подходящую дату и время:</p>
-
-      <div class="form-group">
-        <label for="dateInput">Выбери дату:</label>
-        <input type="date" id="dateInput" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="timeInput">Выбери время:</label>
-        <input type="time" id="timeInput" class="form-control">
-      </div>
-
-      <button class="btn-next" id="toStep4" disabled>Подтвердить →</button>
-    </div>
-
-    <!-- ШАГ 4: Финальный итог -->
-    <div class="step-page" id="step4">
-      <div class="illustration-box">
-        <!-- Анимированное алое сердце со звёздочками (гарантированно работает без внешних сервисов) -->
-        <svg class="celebrate-anim" viewBox="0 0 100 100" fill="none">
-          <path d="M50 82L42.8 75.4C17.2 52.2 0 36.6 0 17.2C0 1.6 12.2 -10.6 27.6 -10.6 36.3 -10.6 44.6 -6.5 50 0C55.4 -6.5 63.7 -10.6 72.4 -10.6 87.8 -10.6 100 1.6 100 17.2C100 36.6 82.8 52.2 57.2 75.4L50 82Z" transform="translate(0, 10) scale(0.7)" fill="#FF4D6D"/>
-          <path d="M20 20L23 13L30 10L23 7L20 0L17 7L10 10L17 13L20 20Z" fill="#FFB703"/>
-          <path d="M80 25L82 19L88 17L82 15L80 9L78 15L72 17L78 19L80 25Z" fill="#FFB703"/>
-        </svg>
-      </div>
-      <h1 class="title">Ура! Всё решено! 🥰✨</h1>
-      <p class="subtitle">Запомни детали нашего свидания:</p>
-
-      <div class="summary-card">
-        <div class="summary-item">
-          <div class="summary-label">Дата и время</div>
-          <div class="summary-value" id="summaryDateTime">-</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Выбранное меню</div>
-          <div class="summary-value" id="summaryMenu">-</div>
-        </div>
-      </div>
-
-      <div class="final-badge" id="finalMessage">
-        Будь готова к указанному времени! 🌹
-      </div>
-    </div>
+<div class="container">
+  <div class="steps-indicator">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // =========================================================
-      // НАСТРОЙКИ TELEGRAM (ВСТАВЬ СВОИ ДАННЫЕ СЮДА)
-      // =========================================================
-      const BOT_TOKEN = '8948926730:AAEo9YS0wxRo-yYYnLogK9ILzY0WGJQglfQ';
-      const CHAT_ID = '1945799567';
+  <!-- ШАГ 1 -->
+  <div class="step-page active" id="step1">
+    <div class="illustration-box">
+      <span class="sparkle" style="left:18%;top:20%">✨</span>
+      <span class="sparkle" style="right:16%;top:28%;animation-delay:.8s">✨</span>
+      <span class="sparkle" style="left:26%;bottom:18%;animation-delay:1.5s">🌸</span>
+      <svg class="heart-anim" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    <h1 class="title">Пойдёшь со мной на свидание? 🌹</h1>
+    <p class="subtitle">У меня для тебя кое-что особенное...</p>
+    <button class="btn btn-yes" id="btnYes" type="button">Пойду! ❤️</button>
+    <button class="btn btn-no" id="btnNo" type="button">Не пойду</button>
+  </div>
 
-      // Состояние выбранных данных
-      const selectedData = {
-        menu: [],
-        date: '',
-        time: ''
-      };
+  <!-- ОШИБКА -->
+  <div class="step-page" id="stepError">
+    <div class="illustration-box">
+      <svg class="heart-anim sad" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    <h1 class="title">Ой, что-то пошло не так, попробуй заново... 🥺</h1>
+    <p class="subtitle">&nbsp;</p>
+    <button class="btn btn-next" id="btnBack" type="button">Вернуться назад</button>
+  </div>
 
-      // Элементы
-      const btnYes = document.getElementById('btnYes');
-      const btnNo = document.getElementById('btnNo');
-      const btnWrapper = document.getElementById('btnWrapper');
-      
-      const menuCards = document.querySelectorAll('.menu-card');
-      const toStep3Btn = document.getElementById('toStep3');
+  <!-- ШАГ 2 -->
+  <div class="step-page" id="step2">
+    <h1 class="title">Что будем кушать? 🍕✨</h1>
+    <p class="subtitle">Выбери всё, что тебе хочется (можно несколько):</p>
+    <div class="menu-grid">
+      <div class="menu-card" data-food="Пицца 🍕"><div class="icon">🍕</div><div class="name">Пицца</div></div>
+      <div class="menu-card" data-food="Суши / Роллы 🍣"><div class="icon">🍣</div><div class="name">Суши / Роллы</div></div>
+      <div class="menu-card" data-food="Бургеры 🍔"><div class="icon">🍔</div><div class="name">Бургеры</div></div>
+      <div class="menu-card" data-food="Паста 🍝"><div class="icon">🍝</div><div class="name">Паста</div></div>
+      <div class="menu-card" data-food="Десерты 🍰"><div class="icon">🍰</div><div class="name">Десерты</div></div>
+      <div class="menu-card" data-food="Кофе / Коктейли ☕"><div class="icon">☕</div><div class="name">Напитки</div></div>
+    </div>
+    <button class="btn btn-next" id="toStep3" type="button" disabled>Выбрать</button>
+  </div>
 
-      const dateInput = document.getElementById('dateInput');
-      const timeInput = document.getElementById('timeInput');
-      const toStep4Btn = document.getElementById('toStep4');
+  <!-- ШАГ 3 -->
+  <div class="step-page" id="step3">
+    <h1 class="title">Когда тебе удобно? 📅</h1>
+    <p class="subtitle">Выбери подходящую дату и время:</p>
+    <div class="form-group">
+      <label for="dateInput">Выбери дату:</label>
+      <input type="date" id="dateInput" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="timeInput">Выбери время:</label>
+      <input type="time" id="timeInput" class="form-control">
+    </div>
+    <button class="btn btn-next" id="toStep4" type="button" disabled>Подтвердить</button>
+  </div>
 
-      const summaryDateTime = document.getElementById('summaryDateTime');
-      const summaryMenu = document.getElementById('summaryMenu');
-      const finalMessage = document.getElementById('finalMessage');
+  <!-- ШАГ 4 -->
+  <div class="step-page" id="step4">
+    <div class="illustration-box">
+      <span class="sparkle" style="left:16%;top:22%">✨</span>
+      <span class="sparkle" style="right:18%;top:20%;animation-delay:.7s">🌸</span>
+      <span class="sparkle" style="right:26%;bottom:16%;animation-delay:1.3s">✨</span>
+      <svg class="heart-anim" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    <h1 class="title">Ура! Всё решено! 🥰✨</h1>
+    <p class="subtitle">Запомни детали нашего свидания:</p>
+    <div class="summary-card">
+      <div class="summary-item"><div class="summary-label">Дата и время</div><div class="summary-value" id="summaryDateTime">-</div></div>
+      <div class="summary-item"><div class="summary-label">Выбранное меню</div><div class="summary-value" id="summaryMenu">-</div></div>
+    </div>
+    <div class="final-badge" id="finalMessage">Будь готова к указанному времени! 🌹</div>
+  </div>
+</div>
 
-      // Минимальная дата в календаре — сегодня
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.setAttribute('min', today);
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-      // Переключение шагов
-      function goToStep(stepNumber) {
-        document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
-        document.querySelectorAll('.step-dot').forEach(dot => dot.classList.remove('active'));
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  👇👇👇  ВПИШИ СВОИ ДАННЫЕ TELEGRAM СЮДА  👇👇👇          ║
+  // ╚══════════════════════════════════════════════════════════╝
 
-        document.getElementById(`step${stepNumber}`).classList.add('active');
-        document.getElementById(`dot${stepNumber}`).classList.add('active');
-      }
+  // ⚠️ СТРОКА 1 — НОВЫЙ ТОКЕН БОТА (из @BotFather), между кавычками:
+  const BOT_TOKEN = '8948926730:AAHPCopmUhUNAV1J9P55118i41VCC-hTqOI';   // <<<<<<<<<< ВПИСАТЬ ТУТ
 
-      // 1. ЛОГИКА ШАГА 1 (Убегающая кнопка)
-      function moveNoButton() {
-        const wrapperRect = btnWrapper.getBoundingClientRect();
-        const btnRect = btnNo.getBoundingClientRect();
+  // ⚠️ СТРОКА 2 — ТВОЙ CHAT ID (число), между кавычками:
+  const CHAT_ID = '1945799567';        // <<<<<<<<<< ВПИСАТЬ ТУТ
 
-        const maxX = wrapperRect.width - btnRect.width;
-        const maxY = wrapperRect.height - btnRect.height;
+  // ══════════════════════════════════════════════════════════
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+  /* ---------- Падающие лепестки ---------- */
+  const canvas = document.getElementById('petals');
+  const ctx = canvas.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const colors = ['#ffb3c6', '#ff8fab', '#ffc8dd', '#fb6f92', '#ffe0ea'];
+  let petals = [];
+  let W = 0, H = 0;
 
-        btnNo.style.left = randomX + 'px';
-        btnNo.style.top = randomY + 'px';
-        btnNo.style.transform = 'none';
-      }
-
-      btnNo.addEventListener('mouseenter', moveNoButton);
-      btnNo.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        moveNoButton();
-      });
-
-      btnYes.addEventListener('click', function() {
-        goToStep(2);
-      });
-
-      // 2. ЛОГИКА ШАГА 2 (Выбор меню)
-      menuCards.forEach(card => {
-        card.addEventListener('click', function() {
-          const food = this.getAttribute('data-food');
-          this.classList.toggle('selected');
-
-          if (this.classList.contains('selected')) {
-            selectedData.menu.push(food);
-          } else {
-            selectedData.menu = selectedData.menu.filter(item => item !== food);
-          }
-
-          // Активируем кнопку только если выбрано хотя бы одно блюдо
-          toStep3Btn.disabled = selectedData.menu.length === 0;
-        });
-      });
-
-      toStep3Btn.addEventListener('click', function() {
-        goToStep(3);
-      });
-
-      // 3. ЛОГИКА ШАГА 3 (Дата и Время)
-      function checkStep3Valid() {
-        if (dateInput.value && timeInput.value) {
-          toStep4Btn.disabled = false;
-        } else {
-          toStep4Btn.disabled = true;
-        }
-      }
-
-      dateInput.addEventListener('change', checkStep3Valid);
-      timeInput.addEventListener('change', checkStep3Valid);
-
-      // Функция отправки ответа боту
-      async function sendToTelegram(date, time, menu) {
-        const message = `
-🎟️ <b>ОТВЕТ НА ПРИГЛАШЕНИЕ!</b>
-
-📅 <b>Дата:</b> ${date}
-⏰ <b>Время:</b> ${time}
-🍕 <b>Выбранное меню:</b> ${menu}
-
-💖 <i>Сообщение прилетело с твоего сайта!</i>
-        `.trim();
-
-        try {
-          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              chat_id: CHAT_ID,
-              text: message,
-              parse_mode: 'HTML'
-            })
-          });
-        } catch (error) {
-          console.error('Ошибка отправки в Telegram:', error);
-        }
-      }
-
-      toStep4Btn.addEventListener('click', function() {
-        selectedData.date = dateInput.value;
-        selectedData.time = timeInput.value;
-
-        // Форматируем дату красиво
-        const dateParts = selectedData.date.split('-');
-        const formattedDate = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`;
-        const menuString = selectedData.menu.join(', ');
-
-        // Заполняем итоговые поля
-        summaryDateTime.textContent = `${formattedDate} в ${selectedData.time}`;
-        summaryMenu.textContent = menuString;
-        finalMessage.textContent = `Будь готова к ${selectedData.time} (${formattedDate})! 🌹`;
-
-        // Отправляем уведомление тебе в Telegram
-        sendToTelegram(formattedDate, selectedData.time, menuString);
-
-        goToStep(4);
-      });
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function makePetal(startTop) {
+    return {
+      x: Math.random() * W,
+      y: startTop ? -20 - Math.random() * 80 : Math.random() * H,
+      size: 8 + Math.random() * 12,
+      speed: 0.5 + Math.random() * 0.9,
+      sway: 0.6 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.03,
+      flip: Math.random() * Math.PI * 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 0.55 + Math.random() * 0.4
+    };
+  }
+  function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.scale(1, Math.abs(Math.cos(p.flip)) * 0.7 + 0.3);
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.moveTo(0, -p.size);
+    ctx.bezierCurveTo(p.size * 0.9, -p.size * 0.6, p.size * 0.8, p.size * 0.5, 0, p.size);
+    ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.9, -p.size * 0.6, 0, -p.size);
+    ctx.fill();
+    ctx.restore();
+  }
+  function tick(t) {
+    ctx.clearRect(0, 0, W, H);
+    petals.forEach(function (p) {
+      p.y += p.speed;
+      p.x += Math.sin(t / 1000 * p.sway + p.phase) * 0.8;
+      p.rot += p.rotSpeed;
+      p.flip += 0.02;
+      if (p.y > H + 30) Object.assign(p, makePetal(true));
+      drawPetal(p);
     });
-  </script>
+    requestAnimationFrame(tick);
+  }
+  resize();
+  const count = reduce ? 0 : (W < 600 ? 22 : 38);
+  for (let i = 0; i < count; i++) petals.push(makePetal(false));
+  window.addEventListener('resize', resize);
+  if (count) requestAnimationFrame(tick);
+
+  /* ---------- Эффект волны на кнопках ---------- */
+  document.querySelectorAll('.btn').forEach(function (b) {
+    b.addEventListener('pointerdown', function (e) {
+      if (b.disabled) return;
+      const r = b.getBoundingClientRect();
+      const d = Math.max(r.width, r.height);
+      const s = document.createElement('span');
+      s.className = 'ripple';
+      s.style.width = s.style.height = d + 'px';
+      s.style.left = (e.clientX - r.left - d / 2) + 'px';
+      s.style.top = (e.clientY - r.top - d / 2) + 'px';
+      b.appendChild(s);
+      setTimeout(function () { s.remove(); }, 650);
+    });
+  });
+
+  /* ---------- Сердечки-салют ---------- */
+  function burst(x, y, n) {
+    if (reduce) return;
+    const emojis = ['❤️', '💖', '🌸', '✨', '💕'];
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement('span');
+      el.className = 'burst';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.setProperty('--dx', (Math.random() * 260 - 130) + 'px');
+      el.style.setProperty('--dy', (-60 - Math.random() * 200) + 'px');
+      el.style.setProperty('--rot', (Math.random() * 120 - 60) + 'deg');
+      document.body.appendChild(el);
+      setTimeout(function () { el.remove(); }, 1700);
+    }
+  }
+
+  /* ---------- Логика шагов ---------- */
+  const selected = { menu: [], date: '', time: '' };
+  const toStep3 = document.getElementById('toStep3');
+  const toStep4 = document.getElementById('toStep4');
+  const dateInput = document.getElementById('dateInput');
+  const timeInput = document.getElementById('timeInput');
+  dateInput.min = new Date().toISOString().split('T')[0];
+
+  function showPage(pageId, dotNumber) {
+    document.querySelectorAll('.step-page').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById(pageId).classList.add('active');
+    document.querySelectorAll('.step-dot').forEach(function (d) { d.classList.remove('active'); });
+    document.getElementById('dot' + dotNumber).classList.add('active');
+  }
+
+  document.getElementById('btnYes').addEventListener('click', function (e) {
+    burst(e.clientX, e.clientY, 14);
+    setTimeout(function () { showPage('step2', 2); }, 350);
+  });
+  document.getElementById('btnNo').addEventListener('click', function () { showPage('stepError', 1); });
+  document.getElementById('btnBack').addEventListener('click', function () { showPage('step1', 1); });
+
+  document.querySelectorAll('.menu-card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      const food = card.getAttribute('data-food');
+      card.classList.toggle('selected');
+      if (card.classList.contains('selected')) {
+        selected.menu.push(food);
+        burst(e.clientX, e.clientY, 5);
+      } else {
+        selected.menu = selected.menu.filter(function (f) { return f !== food; });
+      }
+      toStep3.disabled = selected.menu.length === 0;
+    });
+  });
+  toStep3.addEventListener('click', function () { showPage('step3', 3); });
+
+  function checkStep3() { toStep4.disabled = !(dateInput.value && timeInput.value); }
+  dateInput.addEventListener('input', checkStep3);
+  timeInput.addEventListener('input', checkStep3);
+
+  async function sendToTelegram(date, time, menu) {
+    const text =
+      '🎟 <b>ОТВЕТ НА ПРИГЛАШЕНИЕ!</b>\n\n' +
+      '📅 <b>Дата:</b> ' + date + '\n' +
+      '⏰ <b>Время:</b> ' + time + '\n' +
+      '🍕 <b>Меню:</b> ' + menu + '\n\n' +
+      '💖 <i>Сообщение прилетело с твоего сайта!</i>';
+    try {
+      await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'HTML' })
+      });
+    } catch (err) {
+      console.error('Ошибка отправки в Telegram:', err);
+    }
+  }
+
+  toStep4.addEventListener('click', function (e) {
+    selected.date = dateInput.value;
+    selected.time = timeInput.value;
+    const p = selected.date.split('-');
+    const formattedDate = p[2] + '.' + p[1] + '.' + p[0];
+    const menuString = selected.menu.join(', ');
+
+    document.getElementById('summaryDateTime').textContent = formattedDate + ' в ' + selected.time;
+    document.getElementById('summaryMenu').textContent = menuString;
+    document.getElementById('finalMessage').textContent = 'Будь готова к ' + selected.time + ' (' + formattedDate + ')! 🌹';
+
+    sendToTelegram(formattedDate, selected.time, menuString);
+    burst(e.clientX, e.clientY, 22);
+    setTimeout(function () { burst(window.innerWidth / 2, window.innerHeight / 2, 24); }, 500);
+    showPage('step4', 4);
+  });
+});
+</script>
 </body>
 </html>
