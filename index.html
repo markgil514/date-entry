@@ -3,63 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Приглашение на свидание ✨</title>
+<title>Саша, у меня к тебе вопрос 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap&subset=cyrillic" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #ffe6ea 0%, #ffc2d1 50%, #ffe5ec 100%); background-size: 200% 200%; animation: bgShift 14s ease-in-out infinite alternate; padding: 20px; overflow-x: hidden; }
-@keyframes bgShift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+:root { --rose: #e8587a; --rose-d: #d23f64; --blush: #fde4ea; --cream: #fff9f5; --ink: #3b2a30; --soft: #8a7077; --gold: #d9a85b; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; overflow-x: hidden; color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: radial-gradient(circle at 15% 20%, #ffe3ea 0, transparent 45%), radial-gradient(circle at 85% 80%, #ffd9c9 0, transparent 45%), radial-gradient(circle at 80% 15%, #f8d7ee 0, transparent 40%), #fff2ee;
+  background-size: 140% 140%; animation: drift 18s ease-in-out infinite alternate; }
+@keyframes drift { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
 #petals { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.container { position: relative; z-index: 1; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); width: 100%; max-width: 480px; border-radius: 28px; padding: 32px 24px; box-shadow: 0 16px 50px rgba(255,77,109,.2); animation: cardIn .8s cubic-bezier(.2,.9,.3,1.2) both; }
+.container { position: relative; z-index: 1; width: 100%; max-width: 440px; background: rgba(255,249,245,.9); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px 24px 28px; border: 1px solid rgba(232,88,122,.12); box-shadow: 0 20px 60px rgba(210,63,100,.18), inset 0 1px 0 #fff; animation: cardIn .9s cubic-bezier(.2,.9,.3,1.15) both; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(30px) scale(.96); } to { opacity: 1; transform: none; } }
-.steps-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
-.step-dot { width: 10px; height: 10px; border-radius: 50%; background: #ffd1dc; transition: all .4s ease; }
-.step-dot.active { background: #ff4d6d; width: 26px; border-radius: 12px; }
-.step-page { display: none; }
-.step-page.active { display: block; animation: pageIn .6s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes pageIn { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
-.title { font-size: 23px; color: #2b2b2b; font-weight: 700; text-align: center; margin-bottom: 12px; line-height: 1.3; }
-.subtitle { font-size: 14px; color: #666; text-align: center; margin-bottom: 24px; }
-.illustration-box { width: 100%; height: 170px; border-radius: 18px; margin-bottom: 24px; background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%); display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
-.heart-anim { width: 90px; height: 90px; fill: #ff4d6d; animation: beat 1.4s infinite ease-in-out; filter: drop-shadow(0 6px 15px rgba(255,77,109,.4)); }
-.heart-anim.sad { fill: #adb5bd; filter: none; animation: sway 3s infinite ease-in-out; }
-@keyframes beat { 0%,100% { transform: scale(.92); } 15% { transform: scale(1.14); } 30% { transform: scale(.98); } 45% { transform: scale(1.1); } 60% { transform: scale(.92); } }
-@keyframes sway { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
-.sparkle { position: absolute; font-size: 18px; animation: twinkle 2.4s infinite ease-in-out; opacity: 0; }
-@keyframes twinkle { 0%,100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(25deg); } }
-.btn { position: relative; overflow: hidden; display: block; width: 100%; padding: 15px 28px; font-size: 16px; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; user-select: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; -webkit-tap-highlight-color: transparent; }
+.dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #f6cdd6; transition: all .4s ease; }
+.dot.active { background: var(--rose); width: 26px; border-radius: 10px; }
+.page { display: none; }
+.page.active { display: block; animation: pageIn .65s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hand { font-family: 'Caveat', 'Segoe Script', cursive; color: var(--rose); font-size: 26px; text-align: center; line-height: 1.1; margin-bottom: 6px; }
+.title { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; font-size: 28px; text-align: center; line-height: 1.25; margin-bottom: 10px; }
+.subtitle { font-size: 14px; color: var(--soft); text-align: center; margin-bottom: 22px; line-height: 1.5; }
+
+/* Цветок */
+.flower-box { height: 190px; display: flex; justify-content: center; align-items: center; margin-bottom: 14px; position: relative; }
+.flower { width: 170px; height: 170px; overflow: visible; animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
+.flower .p { transform-box: view-box; transform-origin: 50px 50px; opacity: 0; animation: bloom .9s cubic-bezier(.2,1.2,.4,1) forwards; }
+@keyframes bloom { from { opacity: 0; transform: rotate(var(--a)) scale(.1); } to { opacity: 1; transform: rotate(var(--a)) scale(1); } }
+@keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+.flower.wilt { animation: none; filter: grayscale(.85) brightness(1.05); transform: rotate(10deg) translateY(10px); transition: all 1.2s ease; }
+.glint { position: absolute; font-size: 16px; opacity: 0; animation: twinkle 2.6s infinite ease-in-out; }
+@keyframes twinkle { 0%,100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: .95; transform: scale(1) rotate(25deg); } }
+
+/* Кнопки */
+.btn { position: relative; overflow: hidden; display: block; width: 100%; padding: 15px 24px; font-size: 16px; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; user-select: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; -webkit-tap-highlight-color: transparent; font-family: inherit; }
 .btn + .btn { margin-top: 12px; }
 .btn:hover:not(:disabled) { transform: translateY(-2px); }
 .btn:active:not(:disabled) { transform: scale(.97); }
-.btn-yes, .btn-next { background: linear-gradient(135deg, #ff6b88, #ff4d6d); color: #fff; box-shadow: 0 8px 22px rgba(255,77,109,.38); }
-.btn-yes:hover, .btn-next:hover:not(:disabled) { box-shadow: 0 12px 28px rgba(255,77,109,.5); }
-.btn-no { background: #f1f3f5; color: #495057; }
-.btn-next:disabled { background: #ddd; box-shadow: none; cursor: not-allowed; opacity: .8; }
-.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.55); transform: scale(0); animation: rip .6s ease-out forwards; pointer-events: none; }
+.btn-main { background: linear-gradient(135deg, #f07a95, var(--rose-d)); color: #fff; box-shadow: 0 10px 24px rgba(210,63,100,.35); }
+.btn-main:hover:not(:disabled) { box-shadow: 0 14px 30px rgba(210,63,100,.45); }
+.btn-ghost { background: transparent; color: var(--soft); border: 1.5px solid #ecd5da; }
+.btn-ghost:hover { background: #fff; }
+.btn:disabled { background: #e6dcdf; box-shadow: none; cursor: not-allowed; color: #fff; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.5); transform: scale(0); animation: rip .6s ease-out forwards; pointer-events: none; }
+.btn-ghost .ripple { background: rgba(232,88,122,.18); }
 @keyframes rip { to { transform: scale(4); opacity: 0; } }
-.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.menu-card { border: 2px solid #f3e6e9; border-radius: 18px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all .25s ease; background: #fff; user-select: none; opacity: 0; animation: cardPop .5s cubic-bezier(.2,.9,.3,1.3) forwards; position: relative; }
-.menu-card:nth-child(1) { animation-delay: .05s; } .menu-card:nth-child(2) { animation-delay: .12s; } .menu-card:nth-child(3) { animation-delay: .19s; }
-.menu-card:nth-child(4) { animation-delay: .26s; } .menu-card:nth-child(5) { animation-delay: .33s; } .menu-card:nth-child(6) { animation-delay: .4s; }
-@keyframes cardPop { from { opacity: 0; transform: translateY(14px) scale(.9); } to { opacity: 1; transform: none; } }
-.menu-card:hover { border-color: #ff8fa3; transform: translateY(-3px); }
-.menu-card.selected { border-color: #ff4d6d; background: #fff0f3; box-shadow: 0 6px 16px rgba(255,77,109,.2); animation: none; opacity: 1; transform: scale(1.03); }
-.menu-card.selected::after { content: '❤'; position: absolute; top: 6px; right: 10px; color: #ff4d6d; font-size: 13px; animation: cardPop .35s ease both; }
-.menu-card .icon { font-size: 34px; margin-bottom: 6px; transition: transform .3s ease; }
-.menu-card.selected .icon { transform: scale(1.18) rotate(-6deg); }
-.menu-card .name { font-size: 14px; font-weight: 600; color: #333; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-size: 14px; font-weight: 600; color: #444; margin-bottom: 8px; }
-.form-control { width: 100%; padding: 14px 16px; border: 2px solid #f3e6e9; border-radius: 16px; font-size: 16px; outline: none; transition: all .25s; background: #fff; }
-.form-control:focus { border-color: #ff4d6d; box-shadow: 0 0 0 4px rgba(255,77,109,.12); }
-.summary-card { background: #fff0f3; border-radius: 18px; padding: 20px; margin-bottom: 20px; border: 1px solid #ffccd5; }
-.summary-item { margin-bottom: 14px; }
-.summary-item:last-child { margin-bottom: 0; }
-.summary-label { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: #ff4d6d; font-weight: 700; margin-bottom: 4px; }
-.summary-value { font-size: 16px; color: #2b2b2b; font-weight: 600; }
-.final-badge { text-align: center; background: linear-gradient(135deg, #ff6b88, #ff4d6d); color: #fff; padding: 14px; border-radius: 16px; font-size: 16px; font-weight: 700; }
-.burst { position: fixed; z-index: 5; pointer-events: none; font-size: 22px; animation: burstUp 1.6s ease-out forwards; }
+
+/* Еда */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+.card { position: relative; background: #fff; border: 2px solid #f6e3e7; border-radius: 20px; padding: 16px 8px 12px; text-align: center; cursor: pointer; user-select: none; transition: all .25s ease; opacity: 0; animation: pop .5s cubic-bezier(.2,.9,.3,1.3) forwards; }
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.11s}.card:nth-child(3){animation-delay:.17s}.card:nth-child(4){animation-delay:.23s}.card:nth-child(5){animation-delay:.29s}.card:nth-child(6){animation-delay:.35s}
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.9); } to { opacity: 1; transform: none; } }
+.card:hover { border-color: #f3a9ba; transform: translateY(-3px); }
+.card.sel { border-color: var(--rose); background: var(--blush); box-shadow: 0 8px 18px rgba(232,88,122,.2); animation: none; opacity: 1; transform: scale(1.03); }
+.card.sel::after { content: '♥'; position: absolute; top: 6px; right: 10px; color: var(--rose); font-size: 14px; animation: pop .35s ease both; }
+.card .ic { font-size: 34px; margin-bottom: 4px; transition: transform .3s ease; }
+.card.sel .ic { transform: scale(1.18) rotate(-6deg); }
+.card .nm { font-size: 14px; font-weight: 600; }
+
+/* Дата и время */
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--soft); margin-bottom: 8px; letter-spacing: .3px; }
+.input { width: 100%; padding: 14px 16px; border: 2px solid #f6e3e7; border-radius: 16px; font-size: 16px; font-family: inherit; color: var(--ink); background: #fff; outline: none; transition: all .25s; }
+.input:focus { border-color: var(--rose); box-shadow: 0 0 0 4px rgba(232,88,122,.13); }
+.chips { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.chip { padding: 8px 14px; border-radius: 30px; border: 1.5px solid #f3c7d1; background: #fff; color: var(--rose-d); font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s; font-family: inherit; }
+.chip:hover { background: var(--blush); }
+.chip.on { background: var(--rose); color: #fff; border-color: var(--rose); }
+
+/* Билет */
+.ticket { background: #fff; border-radius: 22px; padding: 22px 20px; margin-bottom: 18px; position: relative; box-shadow: 0 10px 30px rgba(210,63,100,.14); border: 1px solid #f6e3e7; animation: ticketIn .9s cubic-bezier(.2,.9,.3,1.2) both .2s; }
+@keyframes ticketIn { from { opacity: 0; transform: translateY(24px) rotate(-2deg) scale(.95); } to { opacity: 1; transform: none; } }
+.ticket::before, .ticket::after { content: ''; position: absolute; top: 58%; width: 18px; height: 18px; border-radius: 50%; background: #fff6f2; }
+.ticket::before { left: -10px; } .ticket::after { right: -10px; }
+.t-head { text-align: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 2px dashed #f3c7d1; }
+.t-head .small { font-size: 11px; letter-spacing: 3px; color: var(
+
+
+--gold); font-weight: 700; text-transform: uppercase; }
+.t-head .for { font-family: 'Caveat', cursive; font-size: 34px; color: var(--rose); line-height: 1.1; margin-top: 4px; }
+.t-row { margin-bottom: 12px; }
+.t-row:last-child { margin-bottom: 0; }
+.t-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 700; margin-bottom: 3px; }
+.t-value { font-size: 17px; font-weight: 600; }
+.sign { font-family: 'Caveat', cursive; font-size: 26px; color: var(--rose); text-align: center; }
+
+.burst { position: fixed; z-index: 5; pointer-events: none; font-size: 22px; animation: burstUp 1.7s ease-out forwards; }
 @keyframes burstUp { from { opacity: 1; transform: translate(0,0) scale(.5); } to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--rot)); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+prefers-reduced-motion:reduce { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 </style>
 </head>
 <body>
@@ -67,82 +101,89 @@ body { min-height: 100vh; display: flex; justify-content: center; align-items: c
 <canvas id="petals"></canvas>
 
 <div class="container">
-  <div class="steps-indicator">
-    <div class="step-dot active" id="dot1"></div>
-    <div class="step-dot" id="dot2"></div>
-    <div class="step-dot" id="dot3"></div>
-    <div class="step-dot" id="dot4"></div>
+  <div class="dots">
+    <div class="dot active" id="dot1"></div><div class="dot" id="dot2"></div><div class="dot" id="dot3"></div><div class="dot" id="dot4"></div>
   </div>
 
   <!-- ШАГ 1 -->
-  <div class="step-page active" id="step1">
-    <div class="illustration-box">
-      <span class="sparkle" style="left:18%;top:20%">✨</span>
-      <span class="sparkle" style="right:16%;top:28%;animation-delay:.8s">✨</span>
-      <span class="sparkle" style="left:26%;bottom:18%;animation-delay:1.5s">🌸</span>
-      <svg class="heart-anim" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  <div class="page active" id="step1">
+    <p class="hand">Саша, у меня к тебе вопрос...</p>
+    <div class="flower-box">
+      <span class="glint" style="left:12%;top:18%">✨</span>
+      <span class="glint" style="right:12%;top:30%;animation-delay:.9s">✨</span>
+      <span class="glint" style="left:22%;bottom:12%;animation-delay:1.6s">🌸</span>
+      <svg class="flower" viewBox="0 0 100 100" id="flower1"></svg>
     </div>
-    <h1 class="title">Пойдёшь со мной на свидание? 🌹</h1>
-    <p class="subtitle">У меня для тебя кое-что особенное...</p>
-    <button class="btn btn-yes" id="btnYes" type="button">Пойду! ❤️</button>
-    <button class="btn btn-no" id="btnNo" type="button">Не пойду</button>
+    <h1 class="title">Пойдёшь со мной на свидание?</h1>
+    <p class="subtitle">Я тут кое-что для тебя приготовил 🌹</p>
+    <button class="btn btn-main" id="btnYes" type="button">Пойду! ❤️</button>
+    <button class="btn btn-ghost" id="btnNo" type="button">Не пойду</button>
   </div>
 
   <!-- ОШИБКА -->
-  <div class="step-page" id="stepError">
-    <div class="illustration-box">
-      <svg class="heart-anim sad" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  <div class="page" id="stepError">
+    <div class="flower-box">
+      <svg class="flower wilt" viewBox="0 0 100 100" id="flower2"></svg>
     </div>
-    <h1 class="title">Ой, что-то пошло не так, попробуй заново... 🥺</h1>
+    <h1 class="title">Ой, что-то пошло не так, попробуй заново...</h1>
     <p class="subtitle">&nbsp;</p>
-    <button class="btn btn-next" id="btnBack" type="button">Вернуться назад</button>
+    <button class="btn btn-main" id="btnBack" type="button">Вернуться назад</button>
   </div>
 
   <!-- ШАГ 2 -->
-  <div class="step-page" id="step2">
-    <h1 class="title">Что будем кушать? 🍕✨</h1>
-    <p class="subtitle">Выбери всё, что тебе хочется (можно несколько):</p>
-    <div class="menu-grid">
-      <div class="menu-card" data-food="Пицца 🍕"><div class="icon">🍕</div><div class="name">Пицца</div></div>
-      <div class="menu-card" data-food="Суши / Роллы 🍣"><div class="icon">🍣</div><div class="name">Суши / Роллы</div></div>
-      <div class="menu-card" data-food="Бургеры 🍔"><div class="icon">🍔</div><div class="name">Бургеры</div></div>
-      <div class="menu-card" data-food="Паста 🍝"><div class="icon">🍝</div><div class="name">Паста</div></div>
-      <div class="menu-card" data-food="Десерты 🍰"><div class="icon">🍰</div><div class="name">Десерты</div></div>
-      <div class="menu-card" data-food="Кофе / Коктейли ☕"><div class="icon">☕</div><div class="name">Напитки</div></div>
+  <div class="page" id="step2">
+    <p class="hand">Ура, она согласилась!</p>
+    <h1 class="title">Чем тебя накормить? 🍽️</h1>
+    <p class="subtitle">Выбери всё, что хочется — можно несколько</p>
+    <div class="grid">
+      <div class="card" data-food="Пицца 🍕"><div class="ic">🍕</div><div class="nm">Пицца</div></div>
+      <div class="card" data-food="Суши / Роллы 🍣"><div class="ic">🍣</div><div class="nm">Суши / Роллы</div></div>
+      <div class="card" data-food="Бургеры 🍔"><div class="ic">🍔</div><div class="nm">Бургеры</div></div>
+      <div class="card" data-food="Паста 🍝"><div class="ic">🍝</div><div class="nm">Паста</div></div>
+      <div class="card" data-food="Десерты 🍰"><div class="ic">🍰</div><div class="nm">Десерты</div></div>
+      <div class="card" data-food="Кофе / Коктейли ☕"><div class="ic">☕</div><div class="nm">Напитки</div></div>
     </div>
-    <button class="btn btn-next" id="toStep3" type="button" disabled>Выбрать</button>
+    <button class="btn btn-main" id="toStep3" type="button" disabled>Выбрать</button>
   </div>
 
   <!-- ШАГ 3 -->
-  <div class="step-page" id="step3">
+  <div class="page" id="step3">
+    <p class="hand">Осталось выбрать время</p>
     <h1 class="title">Когда тебе удобно? 📅</h1>
-    <p class="subtitle">Выбери подходящую дату и время:</p>
-    <div class="form-group">
-      <label for="dateInput">Выбери дату:</label>
-      <input type="date" id="dateInput" class="form-control">
+    <p class="subtitle">Выбери день и час — подстроюсь</p>
+    <div class="field">
+      <label for="dateInput">Дата</label>
+      <input type="date" id="dateInput" class="input">
     </div>
-    <div class="form-group">
-      <label for="timeInput">Выбери время:</label>
-      <input type="time" id="timeInput" class="form-control">
+    <div class="field">
+      <label for="timeInput">Время</label>
+      <input type="time" id="timeInput" class="input">
+      <div class="chips" id="chips">
+        <button class="chip" type="button" data-t="17:00">17:00</button>
+        <button class="chip" type="button" data-t="18:00">18:00
+
+
+</button>
+        <button class="chip" type="button" data-t="19:00">19:00</button>
+        <button class="chip" type="button" data-t="20:00">20:00</button>
+      </div>
     </div>
-    <button class="btn btn-next" id="toStep4" type="button" disabled>Подтвердить</button>
+    <button class="btn btn-main" id="toStep4" type="button" disabled>Подтвердить</button>
   </div>
 
   <!-- ШАГ 4 -->
-  <div class="step-page" id="step4">
-    <div class="illustration-box">
-      <span class="sparkle" style="left:16%;top:22%">✨</span>
-      <span class="sparkle" style="right:18%;top:20%;animation-delay:.7s">🌸</span>
-      <span class="sparkle" style="right:26%;bottom:16%;animation-delay:1.3s">✨</span>
-      <svg class="heart-anim" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  <div class="page" id="step4">
+    <div class="ticket">
+      <div class="t-head">
+        <div class="small">Приглашение</div>
+        <div class="for">для Саши ♡</div>
+      </div>
+      <div class="t-row"><div class="t-label">Когда</div><div class="t-value" id="summaryDateTime">-</div></div>
+      <div class="t-row"><div class="t-label">Что едим</div><div class="t-value" id="summaryMenu">-</div></div>
+      <div class="t-row"><div class="t-label">Кто приглашает</div><div class="t-value">Тот, кто очень ждёт 🌹</div></div>
     </div>
-    <h1 class="title">Ура! Всё решено! 🥰✨</h1>
-    <p class="subtitle">Запомни детали нашего свидания:</p>
-    <div class="summary-card">
-      <div class="summary-item"><div class="summary-label">Дата и время</div><div class="summary-value" id="summaryDateTime">-</div></div>
-      <div class="summary-item"><div class="summary-label">Выбранное меню</div><div class="summary-value" id="summaryMenu">-</div></div>
-    </div>
-    <div class="final-badge" id="finalMessage">Будь готова к указанному времени! 🌹</div>
+    <p class="sign" id="finalMessage">Жду тебя, Саша!</p>
+    <p class="subtitle" style="margin:8px 0 0">Я уже получил твой ответ 🥰</p>
   </div>
 </div>
 
@@ -153,21 +194,36 @@ document.addEventListener('DOMContentLoaded', function () {
   // ║  👇👇👇  ВПИШИ СВОИ ДАННЫЕ TELEGRAM СЮДА  👇👇👇          ║
   // ╚══════════════════════════════════════════════════════════╝
 
-  // ⚠️ СТРОКА 1 — НОВЫЙ ТОКЕН БОТА (из @BotFather), между кавычками:
-  const BOT_TOKEN = '8948926730:AAHPCopmUhUNAV1J9P55118i41VCC-hTqOI';   // <<<<<<<<<< ВПИСАТЬ ТУТ
+  // ⚠️ СТРОКА 1 — НОВЫЙ ТОКЕН БОТА (из @id199142634 (@BotFather)), между кавычками:
+  const BOT_TOKEN = '8948926730:AAHPCopmUhUNAV1J9P55118i41VCC-hTqOI';   // ««««« ВПИСАТЬ ТУТ
 
   // ⚠️ СТРОКА 2 — ТВОЙ CHAT ID (число), между кавычками:
-  const CHAT_ID = '1945799567';        // <<<<<<<<<< ВПИСАТЬ ТУТ
+  const CHAT_ID = '1945799567';        // ««««« ВПИСАТЬ ТУТ
+
+  // Строка 3 — НЕ ТРОГАЙ, пока не настроишь Cloudflare Worker (позже).
+  const WORKER_URL = '';
 
   // ══════════════════════════════════════════════════════════
+
+  /* ---------- Цветок (лепестки собираются кодом) ---------- */
+  function buildFlower(svg, c1, c2) {
+    var h = '';
+    for (var i = 0; i < 8; i++) {
+      var a = i * 45;
+      h += '<ellipse class="p" cx="50" cy="26" rx="11" ry="22" fill="' + (i % 2 ? c1 : c2) + '" style="--a:' + a + 'deg;animation-delay:' + (i * 0.09) + 's" opacity=".92"/>';
+    }
+    h += '<circle cx="50" cy="50" r="9" fill="#f7c873"/><circle cx="50" cy="50" r="4.5" fill="#e9a94a"/>';
+    svg.innerHTML = h;
+  }
+  buildFlower(document.getElementById('flower1'), '#f59ab0', '#ee7a98');
+  buildFlower(document.getElementById('flower2'), '#cfc3c7', '#bfb2b7');
 
   /* ---------- Падающие лепестки ---------- */
   const canvas = document.getElementById('petals');
   const ctx = canvas.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const colors = ['#ffb3c6', '#ff8fab', '#ffc8dd', '#fb6f92', '#ffe0ea'];
-  let petals = [];
-  let W = 0, H = 0;
+  const colors = ['#ffb3c6', '#ff8fab', '#ffc8dd', '#f78fa7', '#ffe0ea'];
+  let petals = [], W = 0, H = 0;
 
   function resize() {
     const dpr = window.devicePixelRatio || 1;
@@ -175,43 +231,29 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-  function makePetal(startTop) {
-    return {
-      x: Math.random() * W,
-      y: startTop ? -20 - Math.random() * 80 : Math.random() * H,
-      size: 8 + Math.random() * 12,
-      speed: 0.5 + Math.random() * 0.9,
-      sway: 0.6 + Math.random() * 1.2,
-      phase: Math.random() * Math.PI * 2,
-      rot: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.03,
-      flip: Math.random() * Math.PI * 2,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      alpha: 0.55 + Math.random() * 0.4
-    };
+  function makePetal(top) {
+    return { x: Math.random() * W, y: top ? -20 - Math.random() * 80 : Math.random() * H,
+      size: 8 + Math.random() * 12, speed: 0.5 + Math.random() * 0.9, sway: 0.6 + Math.random() * 1.2,
+      phase: Math.random() * 6.28, rot: Math.random() * 6.28, rs: (Math.random() - .5) * .03,
+      flip: Math.random() * 6.28, color: colors[Math.floor(Math.random() * colors.length)], alpha: .55 + Math.random() * .4 };
   }
   function drawPetal(p) {
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.rot);
-    ctx.scale(1, Math.abs(Math.cos(p.flip)) * 0.7 + 0.3);
-    ctx.globalAlpha = p.alpha;
-    ctx.fillStyle = p.color;
-    ctx.beginPath();
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+    ctx.scale(1, Math.abs(Math.cos(p.flip)) * .7 + .3);
+    ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color; ctx.beginPath();
     ctx.moveTo(0, -p.size);
-    ctx.bezierCurveTo(p.size * 0.9, -p.size * 0.6, p.size * 0.8, p.size * 0.5, 0, p.size);
-    ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.9, -p.size * 0.6, 0, -p.size);
-    ctx.fill();
-    ctx.restore();
+    ctx.bezierCurveTo(p.size * .9, -p.size * .6, p.size * .8, p.size * .5, 0, p.size);
+    ctx.bezierCurveTo(-p.size * .8, p.size * .5, -p.size * .9, -p.size * .6, 0, -p.size);
+    ctx.fill(); ctx.restore();
   }
   function tick(t) {
     ctx.clearRect(0, 0, W, H);
     petals.forEach(function (p) {
-      p.y += p.speed;
-      p.x += Math.sin(t / 1000 * p.sway + p.phase) * 0.8;
-      p.rot += p.rotSpeed;
-      p.flip += 0.02;
-      if (p.y > H + 30) Object.assign(p, makePetal(true));
+      p.y += p.speed; p.x += Math.sin(t / 1000 * p.sway + p.phase) * .8; p.rot += p.rs; p.flip += .02;
+      if (p.y > H + 30) Object.a
+
+
+ssign(p, makePetal(true));
       drawPetal(p);
     });
     requestAnimationFrame(tick);
@@ -222,37 +264,29 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('resize', resize);
   if (count) requestAnimationFrame(tick);
 
-  /* ---------- Эффект волны на кнопках ---------- */
+  /* ---------- Волна на кнопках ---------- */
   document.querySelectorAll('.btn').forEach(function (b) {
     b.addEventListener('pointerdown', function (e) {
       if (b.disabled) return;
-      const r = b.getBoundingClientRect();
-      const d = Math.max(r.width, r.height);
-      const s = document.createElement('span');
-      s.className = 'ripple';
-      s.style.width = s.style.height = d + 'px';
-      s.style.left = (e.clientX - r.left - d / 2) + 'px';
-      s.style.top = (e.clientY - r.top - d / 2) + 'px';
-      b.appendChild(s);
-      setTimeout(function () { s.remove(); }, 650);
+      const r = b.getBoundingClientRect(), d = Math.max(r.width, r.height), s = document.createElement('span');
+      s.className = 'ripple'; s.style.width = s.style.height = d + 'px';
+      s.style.left = (e.clientX - r.left - d / 2) + 'px'; s.style.top = (e.clientY - r.top - d / 2) + 'px';
+      b.appendChild(s); setTimeout(function () { s.remove(); }, 650);
     });
   });
 
   /* ---------- Сердечки-салют ---------- */
   function burst(x, y, n) {
     if (reduce) return;
-    const emojis = ['❤️', '💖', '🌸', '✨', '💕'];
+    const em = ['❤️', '💖', '🌸', '✨', '💕'];
     for (let i = 0; i < n; i++) {
       const el = document.createElement('span');
-      el.className = 'burst';
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      el.style.left = x + 'px';
-      el.style.top = y + 'px';
+      el.className = 'burst'; el.textContent = em[Math.floor(Math.random() * em.length)];
+      el.style.left = x + 'px'; el.style.top = y + 'px';
       el.style.setProperty('--dx', (Math.random() * 260 - 130) + 'px');
       el.style.setProperty('--dy', (-60 - Math.random() * 200) + 'px');
       el.style.setProperty('--rot', (Math.random() * 120 - 60) + 'deg');
-      document.body.appendChild(el);
-      setTimeout(function () { el.remove(); }, 1700);
+      document.body.appendChild(el); setTimeout(function () { el.remove(); }, 1800);
     }
   }
 
@@ -264,11 +298,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const timeInput = document.getElementById('timeInput');
   dateInput.min = new Date().toISOString().split('T')[0];
 
-  function showPage(pageId, dotNumber) {
-    document.querySelectorAll('.step-page').forEach(function (p) { p.classList.remove('active'); });
-    document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('.step-dot').forEach(function (d) { d.classList.remove('active'); });
-    document.getElementById('dot' + dotNumber).classList.add('active');
+  function showPage(id, dot) {
+    document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.dot').forEach(function (d) { d.classList.remove('active'); });
+    document.getElementById('dot' + dot).classList.add('active');
   }
 
   document.getElementById('btnYes').addEventListener('click', function (e) {
@@ -278,16 +312,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('btnNo').addEventListener('click', function () { showPage('stepError', 1); });
   document.getElementById('btnBack').addEventListener('click', function () { showPage('step1', 1); });
 
-  document.querySelectorAll('.menu-card').forEach(function (card) {
+  document.querySelectorAll('.card').forEach(function (card) {
     card.addEventListener('click', function (e) {
       const food = card.getAttribute('data-food');
-      card.classList.toggle('selected');
-      if (card.classList.contains('selected')) {
-        selected.menu.push(food);
-        burst(e.clientX, e.clientY, 5);
-      } else {
-        selected.menu = selected.menu.filter(function (f) { return f !== food; });
-      }
+      card.classList.toggle('sel');
+      if (card.classList.contains('sel')) { selected.menu.push(food); burst(e.clientX, e.clientY, 5); }
+      else { selected.menu = selected.menu.filter(function (f) { return f !== food; }); }
       toStep3.disabled = selected.menu.length === 0;
     });
   });
@@ -295,40 +325,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function checkStep3() { toStep4.disabled = !(dateInput.value && timeInput.value); }
   dateInput.addEventListener('input', checkStep3);
-  timeInput.addEventListener('input', checkStep3);
+  timeInput.addEventListener('input', function () {
+    document.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('on', c.dataset.t === timeInput.value); });
+    checkStep3();
+  });
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () { timeInput.value = chip.dataset.t; timeInput.dispatchEvent(new Event('input')); });
+  });
 
   async function sendToTelegram(date, time, menu) {
-    const text =
-      '🎟 <b>ОТВЕТ НА ПРИГЛАШЕНИЕ!</b>\n\n' +
-      '📅 <b>Дата:</b> ' + date + '\n' +
-      '⏰ <b>Время:</b> ' + time + '\n' +
-      '🍕 <b>Меню:</b> ' + menu + '\n\n' +
-      '💖 <i>Сообщение прилетело с твоего сайта!</i>';
     try {
-      await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'HTML' })
-      });
-    } catch (err) {
-      console.error('Ошибка отправки в Telegram:', err);
-    }
+      if (WORKER_URL.indexOf('http') === 0) {
+        await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date: date, time: time, menu: menu })
+        });
+      } else {
+        const text =
+          '🎟 <b>ОТВЕТ НА ПРИГЛАШЕНИЕ!</b>\n\n' +
+          '📅 <b>Дата:</b> ' + date + '\n' +
+          '⏰ <b>Время:</b> ' + time + '\n' +
+          '🍕 <b>Меню:</b> ' + menu + '\n\n' +
+          '💖 <i>Сообщение прилетело с твоего сайта!</i>';
+        await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'HTML' })
+        });
+      }
+    } catch (err) { console.error('Ошибка отправки:', err); }
   }
 
   toStep4.addEventListener('click', function (e) {
-    selected.date = dateInput.value;
-    selected.time = timeInput.value;
+    selected.date = dateInput.value; selected.time = timeInput.value;
     const p = selected.date.split('-');
-    const formattedDate = p[2] + '.' + p[1] + '.' + p[0];
+    const fd = p[2] + '.' + p[1] + '.' + p[0];
     const menuString = selected.menu.join(', ');
-
-    document.getElementById('summaryDateTime').textContent = formattedDate + ' в ' + selected.time;
+    document.getElementById('summaryDateTime').textContent = fd + ' в ' + selected.time;
     document.getElementById('summaryMenu').textContent = menuString;
-    document.getElementById('finalMessage').textContent = 'Будь готова к ' + selected.time + ' (' + formattedDate + ')! 🌹';
-
-    sendToTelegram(formattedDate, selected.time, menuString);
+    document.getElementById('finalMessage').textContent = 'Жду тебя, Саша, в ' + selected.time + '! 🌹';
+    sendToTelegram(fd, selected.time, menuString);
     burst(e.clientX, e.clientY, 22);
-    setTimeout(function () { burst(window.innerWidth / 2, window.innerHeight / 2, 24); }, 500);
+    setTimeout(function () { burst(window.innerWidth / 2, window.innerHeight / 2, 26); }, 500);
     showPage('step4', 4);
   });
 });
